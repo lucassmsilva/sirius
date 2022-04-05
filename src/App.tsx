@@ -15,13 +15,13 @@ import {
   useColorScheme,
 } from 'react-native';
 import { LoginForm } from './components/LoginForm';
-
+import { theme } from './theme';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
   return (
-      <PaperProvider>
+      <PaperProvider theme={theme}>
         <LoginForm />
     </PaperProvider>
   );

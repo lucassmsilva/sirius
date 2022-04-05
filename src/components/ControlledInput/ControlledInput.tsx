@@ -3,6 +3,7 @@ import { ControlledTextFieldProps } from './types';
 import { Controller } from 'react-hook-form';
 import { ErrorText } from './styles';
 import { TextInput } from 'react-native-paper';
+import { customColors } from '../../theme';
 
 
 const ControlledInput = ({name, control, type, label, required, icon}: ControlledTextFieldProps) => {
@@ -19,6 +20,7 @@ const ControlledInput = ({name, control, type, label, required, icon}: Controlle
         }
     }
 
+
     return (
         <React.Fragment>
             <Controller
@@ -33,20 +35,25 @@ const ControlledInput = ({name, control, type, label, required, icon}: Controlle
                             value={value}
                             onChangeText={onChange}
                             error={!!error}
-                            activeOutlineColor='#0275d8'
-                            style={{ backgroundColor: '#fff' }}
+                            selectionColor={customColors.bgLight}
+                            outlineColor={customColors.textDark}
+                            activeOutlineColor={customColors.accent}
+                            style={{
+                                backgroundColor: customColors.bgLight,
+                            }}
                             secureTextEntry={secureTextEntry}
                             right={
                                 showIcon && (
                                     <TextInput.Icon
                                     name={showIcon}
-                                        onPress={() => {
+                                    onPress={() => {
                                             if (showIcon === 'eye-off' || showIcon === 'eye' && type === 'password') {
                                                 setSecureTextEntry(prevState => !prevState);
                                                 toggleIcon(showIcon);
                                             }
                                         }
                                     }
+                                    color={customColors.textDark}
                                 />
                                 )
 
