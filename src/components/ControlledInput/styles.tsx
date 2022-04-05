@@ -4,6 +4,7 @@ import { Text } from 'react-native'
 
 
 export const TextField = styled(TextInput)`
+    background-color: transparent;
 `;
 
 export const ErrorText = styled(Text)`

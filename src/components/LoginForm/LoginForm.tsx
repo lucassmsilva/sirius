@@ -2,9 +2,9 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
-import { DatePickerCustom } from "../ControlledDatePicker";
 import ControledInput from "../ControlledInput/ControlledInput";
 import { Container, LoginBox, SubmitButton, SubmitText, TextField, Title } from "./styles";
+import { Keyboard, TouchableWithoutFeedback } from 'react-native';
 
 
 export default function LoginForm() {
@@ -31,33 +31,38 @@ export default function LoginForm() {
     
 
     return (
-        <Container>
-            <LoginBox>
-                <Title>Login</Title>
-                <TextField>
-                    <ControledInput
-                        control={control}
-                        label="Email"
-                        type="text"
-                        name="email"
-                        required={false}
-                    />
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+            <Container>
+                    <LoginBox>
+                        <Title>Login</Title>
+                        <TextField>
+                            <ControledInput
+                                control={control}
+                                label="Email"
+                                type="text"
+                                name="email"
+                                required={false}
+                                icon='email'
+                            />
+                        </TextField>
 
-                </TextField>
+                        <TextField>
+                            <ControledInput
+                                control={control}
+                                label="Senha"
+                                type="password"
+                                name="password"
+                                required={false}
+                                icon='eye'
+                            />
+                        </TextField>
 
-                <TextField>
-                    <ControledInput
-                        control={control}
-                        label="Senha"
-                        type="text"
-                        name="password"
-                        required={false}
-                    />
-                </TextField>
-                <SubmitButton onPress={handleSubmit(onSubmit)} title="Submit">
-                    <SubmitText>Submit</SubmitText>
-                </SubmitButton>
-            </LoginBox>
-        </Container>
+                        
+                        <SubmitButton onPress={handleSubmit(onSubmit)} title="Submit">
+                            <SubmitText>Entrar</SubmitText>
+                        </SubmitButton>
+                    </LoginBox>
+            </Container>
+        </TouchableWithoutFeedback>
     )
 }

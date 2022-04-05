@@ -1,13 +1,14 @@
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import { Button } from "react-native-paper";
 
 import styled from 'styled-components';
 
 export const Container = styled(View)`
     flex: 1;
+    display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #e3e3e3;
+    background-color: #e3e3;
 `;
 
 export const LoginBox = styled(View)`
@@ -27,13 +28,15 @@ export const Title = styled(Text)`
 `;
 
 export const TextField = styled(View)`
-    width: 100%;
+    width: 90%;
 `;
 
 export const SubmitButton = styled(Button)`
-    background-color: #5cb85c;
+    background-color: #0275d8;
+    width: 60%;
 `;
 
 export const SubmitText = styled(Text)`
     color: #fff;
+    font-weight: bold;
 `;
