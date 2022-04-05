@@ -1,14 +1,23 @@
 import React, { useState } from 'react';
 import { ControlledTextFieldProps } from './types';
 import { Controller } from 'react-hook-form';
-import { ErrorText, TextField } from './styles';
+import { ErrorText } from './styles';
 import { TextInput } from 'react-native-paper';
-import { Keyboard, TouchableWithoutFeedback, View } from 'react-native';
 
 
-const ControledInput = ({name, control, type, label, required, icon}: ControlledTextFieldProps) => {
+const ControlledInput = ({name, control, type, label, required, icon}: ControlledTextFieldProps) => {
 
     const [secureTextEntry, setSecureTextEntry] = useState<boolean>(type === 'password' ? true : false);
+    const [showIcon, setShowIcon] = useState<string>(icon?? '');
+
+    const toggleIcon = (icon: string) => {
+        if (icon === 'eye') {
+            setShowIcon('eye-off');
+        }
+        else if (icon === 'eye-off') {
+            setShowIcon('eye');
+        }
+    }
 
     return (
         <React.Fragment>
@@ -28,12 +37,13 @@ const ControledInput = ({name, control, type, label, required, icon}: Controlled
                             style={{ backgroundColor: '#fff' }}
                             secureTextEntry={secureTextEntry}
                             right={
-                                icon && (
+                                showIcon && (
                                     <TextInput.Icon
-                                    name={icon}
+                                    name={showIcon}
                                         onPress={() => {
-                                            if (icon === 'eye' && type === 'password') {
+                                            if (showIcon === 'eye-off' || showIcon === 'eye' && type === 'password') {
                                                 setSecureTextEntry(prevState => !prevState);
+                                                toggleIcon(showIcon);
                                             }
                                         }
                                     }
@@ -53,4 +63,4 @@ const ControledInput = ({name, control, type, label, required, icon}: Controlled
     );
 }
 
-export default ControledInput;
+export default ControlledInput;
