@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Keyboard } from 'react-native'
 import { Controller } from 'react-hook-form';
-import { ErrorText } from './styles';
+import { ErrorText } from '../../styles';
 import { Portal, Modal, TextInput, Button } from 'react-native-paper';
 // import TextInputMask from 'react-native-text-input-mask';
 // import { If } from 'react-extras';

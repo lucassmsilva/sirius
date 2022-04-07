@@ -26,13 +26,16 @@ export const Title = styled(Text)`
     font-size: ${customFonts.extraLarge}px;
     font-weight: bold;
     margin: 10px 0px;
+    color: ${customColors.textDark};
 `;
 
 export const TextField = styled(View)`
     width: 90%;
 `;
 
+
 export const SubmitButton = styled(Button)`
+    
     background-color: ${customColors.secondary};
     width: 60%;
 `;

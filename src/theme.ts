@@ -31,8 +31,10 @@ export const customColors = {...{
     primary: '#e3e3',
     secondary: '#0275d8',
     accent: '#f1c40f',
-    error: '#ff3333',
+    error: '#B00020',
+    grey: '#adb5bd',
     bgLight: '#fff',
     textLight: '#fff',
-    textDark: '#adb5bd',
+    textMuted: '#6C757D',
+    textDark: '#343A40',
 }, ...themeDark}

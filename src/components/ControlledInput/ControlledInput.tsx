@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ControlledTextFieldProps } from './types';
 import { Controller } from 'react-hook-form';
-import { ErrorText } from './styles';
+import { ErrorText } from '../../styles';
 import { TextInput } from 'react-native-paper';
 import { customColors } from '../../theme';
 
@@ -36,7 +36,7 @@ const ControlledInput = ({name, control, type, label, required, icon}: Controlle
                             onChangeText={onChange}
                             error={!!error}
                             selectionColor={customColors.bgLight}
-                            outlineColor={customColors.textDark}
+                            outlineColor={customColors.grey}
                             activeOutlineColor={customColors.accent}
                             style={{
                                 backgroundColor: customColors.bgLight,
@@ -53,7 +53,7 @@ const ControlledInput = ({name, control, type, label, required, icon}: Controlle
                                             }
                                         }
                                     }
-                                    color={customColors.textDark}
+                                    color={customColors.grey}
                                 />
                                 )
 
