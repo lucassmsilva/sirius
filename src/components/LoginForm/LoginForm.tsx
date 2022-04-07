@@ -34,10 +34,6 @@ export default function LoginForm() {
 
     let pickerOptions = [
         {
-            label: 'Selecione',
-            value: ''
-        },
-        {
             label: 'Java',
             value: 'java'
         },
@@ -78,15 +74,16 @@ export default function LoginForm() {
                                 icon='eye'
                             />
                         </TextField>
-                    
-                    <TextField>
-                        <ControlledPicker
+                        
+                        <TextField>
+                            <ControlledPicker
                                 control={control}
                                 name="picker"
+                                label="Linguagem"
                                 items={pickerOptions}
                                 required={false}
-                        />
-                    </TextField>
+                            />
+                        </TextField>
 
 
                     <View style={{alignItems: 'center', width: '100%'}}>

@@ -8,6 +8,7 @@ type PickerItem = {
 export type ControlledPickerProps = {
     name: string;
     items: Array<PickerItem>
+    label?: string;
     control: Control<FieldValues, any>;
     required?: boolean;
 }

@@ -7,10 +7,13 @@ import { customColors } from '../../theme';
 import { PickerField } from './styles';
 import { View } from 'react-native';
 
-const ControlledPicker = ({ name, control, items, required }: ControlledPickerProps) => {
+const ControlledPicker = ({ name, control, label, items, required }: ControlledPickerProps) => {
 
     items = (items ?? []).filter(item => item != undefined);
-    console.log(items)
+    items.unshift({
+        label: label??'SELECIONE',
+        value: ''
+    })
     
     return (
         <React.Fragment>
