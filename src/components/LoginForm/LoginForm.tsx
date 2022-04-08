@@ -5,21 +5,17 @@ import * as yup from "yup";
 import ControledInput from "../ControlledInput/ControlledInput";
 import { Container, LoginBox, SubmitButton, SubmitText, TextField, Title } from "./styles";
 import { Keyboard, TouchableWithoutFeedback, View } from 'react-native';
-import ControlledPicker from "../ControlledPicker/ControlledPicker";
-
 
 export default function LoginForm() {
 
     type LoginProps = {
         email: string;
         password: string;
-        picker: string;
     }
     
     const schema = yup.object({
         email: yup.string().email('Deve ser um email válido').required('Obrigatório'),
         password: yup.string().min(8, 'Minímo de 8 caracteres').required('Obrigatório'),
-        picker: yup.string().required('Obrigatório'),
     }).required();
       
     const { control, handleSubmit, formState: { errors } } = useForm<any>({
@@ -29,30 +25,14 @@ export default function LoginForm() {
         },
         resolver: yupResolver(schema)
     });
-    
-    const onSubmit = data => console.log(data);
 
-    let pickerOptions = [
-        {
-            label: 'Java',
-            value: 'java'
-        },
-        {
-            label: 'Javascript',
-            value: 'js'
-        },
-        {
-            label: 'PYTHON',
-            value: 'py'
-        },
-    ];
-    
+    const onSubmit = data => console.log(data);
 
     return (
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <Container>
                     <LoginBox>
-                        <Title>Login</Title>
+                    <Title>Login</Title>
                         <TextField>
                             <ControledInput
                                 control={control}
@@ -62,32 +42,21 @@ export default function LoginForm() {
                                 required={false}
                                 icon='email'
                             />
-                        </TextField>
-
-                        <TextField>
-                            <ControledInput
-                                control={control}
-                                label="Senha"
-                                type="password"
-                                name="password"
-                                required={false}
-                                icon='eye'
-                            />
-                        </TextField>
-                        
-                        <TextField>
-                            <ControlledPicker
-                                control={control}
-                                name="picker"
-                                label="Linguagem"
-                                items={pickerOptions}
-                                required={false}
-                            />
-                        </TextField>
-
+                    </TextField>
+                    
+                    <TextField>
+                        <ControledInput
+                            control={control}
+                            label="Senha"
+                            type="password"
+                            name="password"
+                            required={false}
+                            icon='eye'
+                        />
+                    </TextField>
 
                     <View style={{alignItems: 'center', width: '100%'}}>
-                        <SubmitButton onPress={handleSubmit(onSubmit)} title="Submit">
+                        <SubmitButton onPress={handleSubmit(onSubmit)}>
                             <SubmitText>Entrar</SubmitText>
                         </SubmitButton>
                     </View>

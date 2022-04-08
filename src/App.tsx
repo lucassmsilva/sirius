@@ -16,13 +16,16 @@ import {
 } from 'react-native';
 import { LoginForm } from './components/LoginForm';
 import { theme } from './theme';
+import { Todo } from './pages/Todo';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
   return (
       <PaperProvider theme={theme}>
-        <LoginForm />
+      {/* <LoginForm /> */}
+        <Todo />
+
     </PaperProvider>
   );
 };
