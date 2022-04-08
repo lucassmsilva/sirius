@@ -15,10 +15,10 @@ type TodoItemProps = {
     index: number;
     toggleCheckBox: (index: number) => void;
     removeElement: (index: number) => void;
-    updateList?: (index: number, itemToUpdate: TodoProps) => void;
+    handleEdit: (index: number) => void;
 }
 
-const TodoItem = ({item, index, toggleCheckBox, removeElement, updateList }: TodoItemProps) => {
+const TodoItem = ({item, index, toggleCheckBox, removeElement, handleEdit }: TodoItemProps) => {
     console.log('render item: ' + item.id);
      return (
          <React.Fragment>
@@ -34,7 +34,7 @@ const TodoItem = ({item, index, toggleCheckBox, removeElement, updateList }: Tod
                     <Task> {item.id} - {item.task}</Task>
                 </TaskButton>
                 <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderRadius: 4}}>
-                    <EditButton><Icon name="edit" color="#fff" size={20}></Icon></EditButton>
+                    <EditButton onPress={() => handleEdit(index)}><Icon name="edit" color="#fff" size={20}></Icon></EditButton>
                     <RemoveButton onPress={() => removeElement(index)}><Icon name="trash" color="#fff" size={20}></Icon></RemoveButton>
                 </View>
             </TaskContainer>

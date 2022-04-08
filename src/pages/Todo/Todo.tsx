@@ -1,12 +1,14 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import TodoList from '../../components/TodoList/TodoList';
-import { AddButton, Background, BtnTitle, Task, TaskContainer } from './styles';
+import { AddButton, Background, BtnTitle, EditButton, Task, TaskContainer } from './styles';
 import { useForm } from "react-hook-form";
 import { TextField } from './styles';
 import { ControlledInput } from '../../components/ControlledInput';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import TodoItem from './TodoItem';
+import { Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { Modal, Portal } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 
 export const Todo = () => {
@@ -16,7 +18,7 @@ export const Todo = () => {
     }).required();
 
 
-    const { control, handleSubmit, formState: { errors } } = useForm<any>({
+    const { control, handleSubmit, reset, setValue, formState: { errors } } = useForm<any>({
         defaultValues: {
           task: '',
         },
@@ -36,9 +38,10 @@ export const Todo = () => {
     };
 
     const [list, setList] = useState<Array<TodoProps>>([]);
+    const [counter, setCounter] = useState<number>(0);
     
     const addElement = useCallback(({ task, done }) => {
-            setList(prevState => {
+        setList(prevState => {
                 let id = prevState.length + 1;
                 return [...prevState, { id, task, done }];
             });
@@ -73,10 +76,50 @@ export const Todo = () => {
         }, [])
             
     const onSubmit = data => newElement(data.task);
+    const onSubmitUpdate = data => {
+        let itemToUpdate = { ...list[indexToEdit] };
+        itemToUpdate.task = data.task;
+        updateList({ index: indexToEdit, itemToUpdate });
+        handleEdit(-1);
+    }
+
+
+    const [visible, setVisible] = useState<boolean>(false);
+    const [indexToEdit, setIndexToEdit] = useState(-1);
+
+    const handleEdit = (index) => {
+        setVisible(prevState => !prevState);
+        setIndexToEdit(index);
+        setValue('task', list[index]?.task ?? '', { shouldValidate: false });
+        if (index === -1) {
+            reset({ task: '' });
+        }
+    }
     
 
     return (
-        <Background>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+
+            <Background>
+            <Portal>
+                <Modal visible={visible} onDismiss={() => handleEdit(-1)}>
+                    <TaskContainer>
+                        <Task>Tarefa: {list[indexToEdit]?.id??''}</Task>
+                    </TaskContainer>
+                    <TaskContainer>
+                        <TextField>
+                            <ControlledInput
+                                control={control}
+                                label="Tarefa"
+                                type="text"
+                                name="task"
+                                required={false}
+                            />
+                        </TextField>
+                        <EditButton onPress={handleSubmit(onSubmitUpdate)}><Icon name="edit" color="#fff" size={20}></Icon></EditButton>
+                    </TaskContainer>
+                </Modal>
+            </Portal>
             <TaskContainer>
                 <Task>Nºde tarefas: {list.length} - Tarefas concluidas: {(list??[]).filter(item => item.done).length}</Task>
             </TaskContainer>
@@ -93,11 +136,11 @@ export const Todo = () => {
                 <AddButton onPress={handleSubmit(onSubmit)}><BtnTitle>+</BtnTitle></AddButton>
             </TaskContainer>
             {(list ?? []).map((item, index) => (
-                <TodoItem key={item.id} item={item} index={index} toggleCheckBox={toggleCheckBox} removeElement={removeElement}/>
-
+                <TodoItem key={item.id} item={item} index={index} toggleCheckBox={toggleCheckBox} removeElement={removeElement} handleEdit={handleEdit} />
             ))}
 
-        </Background>
+            </Background>
+            </TouchableWithoutFeedback>
     );
 }
 
