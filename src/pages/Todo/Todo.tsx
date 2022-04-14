@@ -1,14 +1,14 @@
-import React, {useState, useEffect, useCallback} from 'react';
-import { AddButton, Background, BtnTitle, EditButton, Task, TaskContainer } from './styles';
+import React, {useState, useCallback} from 'react';
+import { AddButton, Background, BtnTitle, EditButton, FormContainer, Label, ModalBackground, Task, TaskContainer, TopBar } from './styles';
 import { useForm } from "react-hook-form";
 import { TextField } from './styles';
 import { ControlledInput } from '../../components/ControlledInput';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
-import TodoItem from './TodoItem';
-import { Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { Keyboard, TouchableWithoutFeedback, View } from 'react-native';
 import { Modal, Portal } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import TodoList from './TodoList';
 
 
 export const Todo = () => {
@@ -27,7 +27,6 @@ export const Todo = () => {
 
 
     type TodoProps = {
-        id: number;
         task: string;
         done: boolean;
     };
@@ -42,8 +41,7 @@ export const Todo = () => {
     
     const addElement = useCallback(({ task, done }) => {
         setList(prevState => {
-                let id = prevState.length + 1;
-                return [...prevState, { id, task, done }];
+                return [...prevState, { task, done }];
             });
         }, [])
 
@@ -58,7 +56,6 @@ export const Todo = () => {
         useCallback(({index, itemToUpdate }: UpdateListProps) => {
             setList(prevState => {
                 let rmv = prevState.splice(index, 1, itemToUpdate);
-                console.log(prevState, rmv)
                 return [...prevState];
             })
         }, [list])
@@ -75,7 +72,11 @@ export const Todo = () => {
             return addElement({task: task, done: false })
         }, [])
             
-    const onSubmit = data => newElement(data.task);
+    const onSubmit = (data) => {
+        newElement(data.task);
+        reset({ task: '' });
+    };
+
     const onSubmitUpdate = data => {
         let itemToUpdate = { ...list[indexToEdit] };
         itemToUpdate.task = data.task;
@@ -83,61 +84,63 @@ export const Todo = () => {
         handleEdit(-1);
     }
 
-
-    const [visible, setVisible] = useState<boolean>(false);
-    const [indexToEdit, setIndexToEdit] = useState(-1);
-
-    const handleEdit = (index) => {
+    const handleEdit = useCallback((index: number) => {
         setVisible(prevState => !prevState);
         setIndexToEdit(index);
         setValue('task', list[index]?.task ?? '', { shouldValidate: false });
         if (index === -1) {
             reset({ task: '' });
         }
-    }
-    
+    }, [list]);
 
+    const [visible, setVisible] = useState<boolean>(false);
+    const [indexToEdit, setIndexToEdit] = useState(-1);
+    
     return (
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-
             <Background>
+            <TopBar>
+                    <Task>Nºde tarefas: {list.length}</Task>
+                    <Task>Tarefas concluidas: {(list??[]).filter(item => item.done).length}</Task>
+            </TopBar>
             <Portal>
                 <Modal visible={visible} onDismiss={() => handleEdit(-1)}>
-                    <TaskContainer>
-                        <Task>Tarefa: {list[indexToEdit]?.id??''}</Task>
-                    </TaskContainer>
-                    <TaskContainer>
-                        <TextField>
-                            <ControlledInput
-                                control={control}
-                                label="Tarefa"
-                                type="text"
-                                name="task"
-                                required={false}
-                            />
-                        </TextField>
-                        <EditButton onPress={handleSubmit(onSubmitUpdate)}><Icon name="edit" color="#fff" size={20}></Icon></EditButton>
-                    </TaskContainer>
+                    <ModalBackground>
+                        <Label>Editar Tarefa</Label>
+                        <FormContainer>
+                            <TextField>
+                                <ControlledInput
+                                    control={control}
+                                    label="Tarefa"
+                                    type="text"
+                                    name="task"
+                                    required={false}
+                                />
+                            </TextField>
+                            <EditButton onPress={handleSubmit(onSubmitUpdate)}><Icon name="edit" color="#fff" size={20}></Icon></EditButton>
+                        </FormContainer>
+
+                    </ModalBackground>
                 </Modal>
             </Portal>
-            <TaskContainer>
-                <Task>Nºde tarefas: {list.length} - Tarefas concluidas: {(list??[]).filter(item => item.done).length}</Task>
-            </TaskContainer>
-            <TaskContainer>
-                <TextField>
-                    <ControlledInput
-                        control={control}
-                        label="Tarefa"
-                        type="text"
-                        name="task"
-                        required={false}
-                    />
-                </TextField>
-                <AddButton onPress={handleSubmit(onSubmit)}><BtnTitle>+</BtnTitle></AddButton>
-            </TaskContainer>
-            {(list ?? []).map((item, index) => (
-                <TodoItem key={item.id} item={item} index={index} toggleCheckBox={toggleCheckBox} removeElement={removeElement} handleEdit={handleEdit} />
-            ))}
+
+            <View style={{backgroundColor: '#fff'}}>
+                <Label>Adicionar nova tarefa</Label>
+                <FormContainer>
+                    <TextField>
+                        <ControlledInput
+                            control={control}
+                            label="Tarefa"
+                            type="text"
+                            name="task"
+                            required={false}
+                        />
+                    </TextField>
+                    <AddButton onPress={handleSubmit(onSubmit)}><BtnTitle>+</BtnTitle></AddButton>
+                </FormContainer>
+            </View>
+            
+            <TodoList list={list} toggleCheckBox={toggleCheckBox} removeElement={removeElement} handleEdit={handleEdit} />
 
             </Background>
             </TouchableWithoutFeedback>

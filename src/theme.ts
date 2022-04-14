@@ -30,8 +30,9 @@ const themeDark = {
 export const customColors = {...{
     primary: '#e3e3',
     secondary: '#0275d8',
-    accent: '#f1c40f',
+    accent: '#e0aaff',
     error: '#B00020',
+    danger: '#ff0000',
     grey: '#adb5bd',
     bgLight: '#fff',
     textLight: '#fff',

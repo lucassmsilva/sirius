@@ -23,9 +23,11 @@ const App = () => {
 
   return (
       <PaperProvider theme={theme}>
+    <SafeAreaView style={{flex: 1}}>
       {/* <LoginForm /> */}
         <Todo />
 
+    </SafeAreaView>
     </PaperProvider>
   );
 };

@@ -5,7 +5,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { View } from "react-native";
 
 type TodoProps = {
-    id: number;
     task: string;
     done: boolean;
 };
@@ -19,7 +18,6 @@ type TodoItemProps = {
 }
 
 const TodoItem = ({item, index, toggleCheckBox, removeElement, handleEdit }: TodoItemProps) => {
-    console.log('render item: ' + item.id);
      return (
          <React.Fragment>
             <TaskContainer >
@@ -31,7 +29,7 @@ const TodoItem = ({item, index, toggleCheckBox, removeElement, handleEdit }: Tod
                             return toggleCheckBox(index);
                         }}
                     />
-                    <Task> {item.id} - {item.task}</Task>
+                    <Task> {item.task}</Task>
                 </TaskButton>
                 <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderRadius: 4}}>
                     <EditButton onPress={() => handleEdit(index)}><Icon name="edit" color="#fff" size={20}></Icon></EditButton>
